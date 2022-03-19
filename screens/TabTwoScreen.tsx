@@ -1,31 +1,58 @@
-import { StyleSheet } from 'react-native';
+import React from "react";
+import { View, Image, Text, Dimensions, TextInput, StyleSheet, SafeAreaView, Alert } from "react-native";
+import {Button} from "react-native-elements";
+import LottieView from 'lottie-react-native';
+import Header from "../components/LoginForm/Header";
+import Inputs from "../components/LoginForm/Inputs";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+export default function TabOneScreen() {
+ 
 
-export default function TabTwoScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+    <View
+      style={style.container}
+    >
+  
+     <Header />
+
+     <Inputs />
+
+      <View style={{
+        height: 100,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        
+      }}>
+        <Text style={{
+          fontSize: 18,
+          color:'#6998AB'
+        }}>
+          Create an account?
+        </Text>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    backgroundColor: '#1A374D',
     justifyContent: 'center',
+    paddingHorizontal: 10,
+    width: '100%'
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  input: {
+    height: 40,
+    width: '90%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: '#C1F8CF',
+    borderRadius: 10,
+   color: '#062C30'
+
   },
 });
