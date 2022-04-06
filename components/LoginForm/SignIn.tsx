@@ -5,14 +5,10 @@ import { Button } from "react-native-elements";
 import { TextInput } from "react-native-paper";
 import { Formik } from 'formik';
 import * as yup from "yup";
-import ViewWithLoading from "../components/ViewWithLoading";
-import SignIn from "../components/LoginForm/SignIn";
-import Header from "../components/LoginForm/Header";
-import Inputs from "../components/LoginForm/Inputs";
 
 
 
-export default function LoginForm() {
+export default function SignIn(){
     const [visible, setVisible] = useState<boolean>(false);
     const [loading, setloading]= useState(false)
 
@@ -22,7 +18,8 @@ export default function LoginForm() {
     const Signup = () =>{
         const EmailAddress = "";
         const Password = "";
-      // code for
+
+      // error trapping
        if (password === "" && confirmpassword === "" || password === "Create Password" && confirmpassword === "Confirm Password" ) {
         Alert.alert("Login Error", "Please fill the required fields")
        }
@@ -31,7 +28,6 @@ export default function LoginForm() {
      } else{
         Alert.alert("Login Error", "password is unmatch")
      }
-
 
       }
     useEffect(() =>{
@@ -50,21 +46,45 @@ export default function LoginForm() {
         password: yup.string().required('This field is required'),
         confirmpassword: yup.string().required('This field is required is required')
     });
+ 
+    return(
 
-    return (
-//for the inputs where the header is inserted also the register button
-      <View style={{
-           flex: 1,
-            paddingTop: 50,
-            paddingBottom: 20,
-            backgroundColor:'#80ED99',
-      }}>
-            <Inputs />
-      </View>
-      
+
+
+
+
+        <View style={{
+            flex: 0,
+        }}>
+
+          <View style={{
+           paddingTop: 20,
+           paddingHorizontal: 15,
+           paddingBottom: 0,
+           
+            }}>
+                <Button
+                    title="REGISTER"
+                      buttonStyle={{
+                      backgroundColor: '#80ED99',
+                      width: '70%',
+                      borderRadius: 10,
+                      alignSelf:"center",
+                      
+                      
+                    }}
+                    containerStyle={{
+                        marginVertical: 10,
+                    }}
+                    onPress={Signup}
+                    titleStyle={styles.textStyle}
+                    loading={loading}
+                />
+                </View>
+            </View>
     )
+
 }
-//Style
 const styles = StyleSheet.create({
     container: {
         flex: 1,

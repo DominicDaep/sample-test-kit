@@ -4,25 +4,42 @@ import { Image, Text, Dimensions, TextInput, StyleSheet, SafeAreaView, Alert } f
 
 export default function Header(){
     return (
-        <View
-      style={{
-        height: 200,
-        width: '100%',
-        alignItems: 'center',
-      }}
-      >
-        <Image
-        style={{
-          height: '100%',
-          width: '90%',
-          paddingBottom: '100%',
-          borderRadius: 200,
-        }}
-        source={{
-          uri:'https://miro.medium.com/max/1000/0*QvNoOUJpeBSJCExe.gif'
-        }}
-      />
-
-      </View>
+      
+                  <View 
+                  style ={{
+                    backgroundColor:'#334443',
+                    paddingTop: 0,
+                    width: '90%',
+                    alignSelf: "center",
+                   
+                  }}
+                  >
+                   <Text style={{ 
+                          fontSize: 30, 
+                          textAlign: 'center', 
+                          color: '#80ED99',
+                          paddingHorizontal: 10,
+                          paddingTop: 0
+                      
+                          }}>
+                      Create Account
+                    </Text>
+                        <Image
+                        style={{
+                          
+                            height: 100,
+                            width: 100,
+                            paddingBottom: '10%',
+                            alignSelf: "center",
+                            paddingTop: 10
+                            
+                        }}
+                        source={{
+                          uri: 'https://img.icons8.com/cotton/344/gender-neutral-user--v1.png'
+                        }} />
+                        
+                  </View>
+          
+                      
     )
 }

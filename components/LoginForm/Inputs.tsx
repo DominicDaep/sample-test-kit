@@ -1,109 +1,305 @@
-import React from "react";
-import { View, Image, Text, Dimensions, TextInput, StyleSheet, SafeAreaView, Alert } from "react-native";
-import {Button} from "react-native-elements";
-import LottieView from 'lottie-react-native';
+import * as React from "react";
+import { Fragment, useState, useEffect } from "react";
+import { View, StyleSheet, Text, Alert, Image, KeyboardAvoidingView, ScrollView } from "react-native";
+import { TextInput } from "react-native-paper";
+import { Formik } from 'formik';
+import * as yup from "yup";
+import ViewWithLoading from "../ViewWithLoading";
+import SignIn from "./SignIn";
+import Header from "..//LoginForm/Header";
+
+
+
+
 
 
 export default function Inputs(){
-    const [email, SetEmailText] = React.useState<string>("");
-    const [Password, SetPasswordText] = React.useState<string>("");
-  
-  
-  const Login = () =>{
-    const EmailAddress = "dhomwelldaep@gmail.com";
-    const Password = "password123";
-  
-    if(email === EmailAddress && Password === Password){
-       Alert.alert("Login", "Successfully Login")
-    } else{
-       Alert.alert("Login Error", "Wrong Email and Password")
-    }
-  }
+  const [visible, setVisible] = useState<boolean>(false);
+    const [loading, setloading]= useState(false)
+
+    const [password, SetpasswordText] = React.useState<string>("");
+    const [confirmpassword, SetconfirmpasswordText] = React.useState<string>("");
+
+    const Signup = () =>{
+        const EmailAddress = "";
+        const Password = "";
+
+      // error trapping
+       if (password === "" && confirmpassword === "" || password === "Create Password" && confirmpassword === "Confirm Password" ) {
+        Alert.alert("Login Error", "Please fill the required fields")
+       }
+       else if ( confirmpassword  === password){
+        Alert.alert("Account", "Successlly registered")
+     } else{
+        Alert.alert("Login Error", "password is unmatch")
+     }
+
+      }
+    useEffect(() =>{
+      setloading(true);
+      setTimeout(() => {
+      setloading(false);
+      console.log(loading);
+      }, 3000);
+      },[])
+
+    const loginSchema = yup.object({
+      
+        email: yup.string().required('This field is required')
+            .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/,
+                'Invalid email address'),
+        password: yup.string().required('This field is required'),
+        confirmpassword: yup.string().required('This field is required is required')
+    });
+    
     return(
         <View style={{
-            flex: 100,
-            paddingTop: 150,
+            flex: 1,
+            paddingTop: 50,
+            paddingBottom: 20,
+            backgroundColor:'#80ED99',
+            
+            
+        }}>
+         <ViewWithLoading loading={loading}>
+        
+<Header />
+
+          <View style={{
+            backgroundColor:'#334443',
+            paddingTop: 0,
+            width: '90%',
+            alignSelf: "center",
+            
+
           }}>
-            <View style={{
-              flex: 0,
-              alignItems: 'center',
-              width: '100%'
-            }}>
-              
-            <TextInput 
-            style={style.input}
-            onChangeText={SetEmailText}
-            value={email}
-            placeholder={"Enter your Email Address"}
-            />
-      
-            </View>
-    
-            <View style={{
-              marginBottom: 4,
-              alignItems: 'center',
-              
-              
-            }}>
-             
-             <TextInput 
-            style={style.input}
-            onChangeText={SetPasswordText}
-            value={Password}
-            placeholder={"Enter your Password"}
-            secureTextEntry={true}
-          />
-            </View>
-              <View style={{
-    
-              }}>
-              <Text style={{ 
-                fontSize: 14, 
-                textAlign: 'right', 
-                color: '#AEFEFF',
-                paddingHorizontal: 10,
-                marginBottom: 40
-                 }}>
-            Forgot Password?
-          </Text>
-              </View>
-    
-              <Button
-                 title={"Login"}
-                 buttonStyle={{
-                 backgroundColor: '#00C897',
-                 width: '50%',
-                 alignSelf:"center",
-                 borderRadius: 20,
-                 
-                 
-                 
+
+          
+                
+                 <ScrollView
+                        contentContainerStyle={{
+                                   flexGrow:1
+                                }}
+                        showsVerticalScrollIndicator={false}
+                        >
+                                  
+            <Formik
+                initialValues={{
+                    Firstname: '',
+                    Lastname: '',
+                    email: '',
+                    password: '',
+                    confirmpassword:''
                 }}
-                type={"solid"}
-              
-                onPress={()=>Login()}
-                >
-              </Button>
-          </View>
+                onSubmit={(values, actions) => {
+                    console.log(values);
+                    actions.resetForm();
+                }}
+                validationSchema={loginSchema}
+            >
+                {({ handleChange, handleSubmit, values, errors, touched }) => (
+                    <Fragment>
+
+                    
+
+              <KeyboardAvoidingView>
+             
+                        <View style={{
+                           paddingTop: 10,
+                           paddingHorizontal: 15,
+                           paddingBottom: 0,
+                           width: '90%',
+                           alignSelf:"center"
+                        }}>
+                            <TextInput
+                                label="Enter your Firstname"
+                                value={values.Firstname}
+                                onChangeText={handleChange('Firstname')}
+                                autoComplete={false}
+                                mode={"outlined"}
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                                autoFocus={true}
+                                error={errors.Firstname ? true : false}
+                            />
+                            {errors.Firstname &&
+                                <Text>
+                                    {errors.Firstname}
+                                </Text>
+                            }
+                        </View>
+                        
+                        <View style={{
+                           paddingTop: 0,
+                           paddingHorizontal: 15,
+                           paddingBottom: 0,
+                           marginBottom: 4,
+                           width: '90%',
+                           alignSelf:"center"
+                        }}>
+                          
+                            <TextInput
+                              placeholderTextColor={'#F2FFE9'}
+                                label="Enter your Lastname"
+                                value={values.Lastname}
+                                onChangeText={handleChange('Lastname')}
+                                autoComplete={false}
+                                mode={"outlined"}
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                                autoFocus={true}
+                                error={errors.Lastname ? true : false}
+                            />
+                            {errors.Lastname &&
+                                <Text>
+                                    {errors.Lastname}
+                                </Text>
+                            }
+                        </View>
+                        <View style={{
+                           paddingTop: 0,
+                           paddingHorizontal: 15,
+                           paddingBottom: 0,
+                           width: '90%',
+                           alignSelf:"center"
+                        }}>
+                            <TextInput
+                                label="Email"
+                                value={values.email}
+                                onChangeText={handleChange('email')}
+                                autoComplete={false}
+                                keyboardType={"email-address"}
+                                mode={"outlined"}
+                                right={
+                                    <TextInput.Icon
+                                        name={"email"}
+                                        color={"blue"}
+                                    />
+                                }
+                                autoCapitalize={"none"}
+                                autoCorrect={false}
+                                autoFocus={true}
+                                error={errors.email ? true : false}
+                            />
+                            {errors.email &&
+                                <Text>
+                                    {errors.email}
+                                </Text>
+                            }
+                        </View>
+
+                        <View style={{
+                           paddingTop: 0,
+                           paddingHorizontal: 15,
+                           paddingBottom: 0,
+                           width: '90%',
+                           alignSelf:"center"
+                        }}>
+                            <TextInput
+                                label="Create Password"
+                                value={values.password}
+                                onChangeText={SetpasswordText}
+                                autoComplete={false}
+                                mode={"outlined"}
+                                right={
+                                    <TextInput.Icon
+                                        name={visible ? "eye" : "eye-off"}
+                                        onPress={() => {
+                                            setVisible(!visible);
+                                        }}
+                                        color={"blue"}
+                                    />
+                                }
+                                secureTextEntry={!visible}
+                                error={errors.password ? true : false}
+                            />
+                            {errors.password &&
+                                <Text>
+                                    {errors.password}
+                                </Text>
+                            }
+                        </View>
+
+                        <View style={{
+                            paddingTop: 0,
+                            paddingHorizontal: 15,
+                            paddingBottom: 0,
+                            width: '90%',
+                            alignSelf:"center",
+                            
+                        
+                        }}>
+                            <TextInput
+                                label="Confirm Password"
+                                value={values.confirmpassword}
+                                onChangeText={SetconfirmpasswordText}
+                                autoComplete={false}
+                                mode={"outlined"}
+                                right={
+                                    <TextInput.Icon
+                                        name={visible ? "eye" : "eye-off"}
+                                        onPress={() => {
+                                            setVisible(!visible);
+                                        }}
+                                        color={"blue"}
+                                    />
+                                }
+                                secureTextEntry={!visible}
+                                error={errors.confirmpassword ? true : false}
+                            />
+                            {errors.confirmpassword &&
+                                <Text>
+                                    {errors.confirmpassword}
+                                </Text>
+                            }
+                        </View>
+
+                     
+          </KeyboardAvoidingView>
+            
+                 <SignIn />
+
+                        <View style={{
+                            flex: 0,
+                        }}>
+
+                         
+                            </View>
+                    </Fragment>
+                )}
+            </Formik>
+            </ScrollView>
+            </View>
+            </ViewWithLoading>
+        </View>
+
     )
 }
-const style = StyleSheet.create({
-    container: {
+const styles = StyleSheet.create({
+  container: {
       flex: 1,
-      backgroundColor: '#1A374D',
-      justifyContent: 'center',
-      paddingHorizontal: 10,
-      width: '100%'
-    },
-    input: {
-      height: 40,
-      width: '90%',
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      backgroundColor: '#C1F8CF',
-      borderRadius: 10,
-     color: '#062C30'
-  
-    },
-  });
+      backgroundColor: '#fff',
+      paddingHorizontal: 20,
+      justifyContent: 'center'
+  },
+  overrideContainer: {
+      backgroundColor: 'green'
+  },
+  textStyle: {
+    color: '#334443',
+    textAlign: 'center',
+    paddingHorizontal: 50,
+    paddingTop: 0
+
+  },
+  input: {
+    height:32,
+    width: '90%',
+    margin: 4,
+    borderWidth: 1,
+    padding: 3,
+    backgroundColor: '#fbfbfb',
+    borderRadius: 10,
+   color: '#062C30'
+  },
+});
